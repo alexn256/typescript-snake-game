@@ -1,3 +1,18 @@
-docker image build . -t snake-ts:0.0.1
+#!/bin/bash
 
-docker run --rm -d -p 80:80 snake-ts:0.0.1
+echo "Compile typescript to javascript..."
+npm run build
+
+if [ $? -eq 0 ]; then
+    echo "Copy html, css and javascript files..."
+    mkdir build
+    cp -r src/index.html build/index.html
+    cp -r src/main.css build/main.css
+    cp -r src/app.js build/app.js
+    cp -r src/image/logo.png build/logo.png
+else
+    echo "Compilation of typescript to javascript has failed!"
+    exit 1
+fi
+
+echo "Build execution successfully complete."
